@@ -7,3 +7,5 @@
 标准库集成脚本 `verify_workflows.py` 真正从 Node 入口读取 stdin/文件：检查七类结果、累积末项等于完整拟合、留一法数量、CSV 解析、SVG XML 解析、恶意标签、重复键/无效 JSON、无效 UTF-8、超大输入及退出码。
 
 原生后端要求 C 工具链；Windows 本地如仅能检查则以 Linux CI 的实际 native 测试/构建/示例结果补足。GitHub Actions 必须对应发布 SHA，不能用旧成功替代。未测吞吐、覆盖率、临床覆盖率或与其它软件的性能差异，因此不声明这些指标。
+
+中文 README 的导入和最小测试通过 `python tools/verify_readme.py` 在独立 workspace 中逐字提取检查；这项发布前检查使用本地候选源码，发布后还须用无 token、无缓存的消费者安装精确注册版本。

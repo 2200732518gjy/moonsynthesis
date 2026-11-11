@@ -44,5 +44,6 @@ jobs:
         run: |
           moon build --target js --release --deny-warn
           python -m pip install -r tools/oracle-requirements.txt
+          python tools/verify_readme.py
           python tools/verify_workflows.py
           python tools/verify_oracle.py
