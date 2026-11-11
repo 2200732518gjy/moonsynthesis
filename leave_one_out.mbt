@@ -1,10 +1,11 @@
 ///|
 /// A deletion result is a refit, including a fresh between-study variance.
+#derive(ToJson)
 pub(all) struct Deletion {
   omitted_id : String
   analysis : Analysis
   estimate_shift : Double
-} derive(ToJson)
+}
 
 ///|
 pub extend Deletion with ToJson::{to_json}

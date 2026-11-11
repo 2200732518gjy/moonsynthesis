@@ -1,9 +1,10 @@
 ///|
 /// Subgroup summaries retain labels in first-appearance order.
+#derive(ToJson)
 pub(all) struct Subgroup {
   label : String
   analysis : Analysis
-} derive(ToJson)
+}
 
 ///|
 pub extend Subgroup with ToJson::{to_json}
@@ -11,12 +12,13 @@ pub extend Subgroup with ToJson::{to_json}
 ///|
 /// The between-group Q identity uses fixed weights in every component.
 /// It is descriptive; no multiplicity-adjusted or interaction p-value is claimed.
+#derive(ToJson)
 pub(all) struct GroupComparison {
   groups : Array[Subgroup]
   between_q : Double
   between_df : Int32
   within_q : Double
-} derive(ToJson)
+}
 
 ///|
 pub extend GroupComparison with ToJson::{to_json}

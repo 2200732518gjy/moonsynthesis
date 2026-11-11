@@ -1,12 +1,13 @@
 ///|
 /// Point estimates, uncertainty and normalized weights; no mutable state escapes.
+#derive(ToJson)
 pub struct Pool {
   estimate : Double
   variance : Double
   weights : Array[Double]
   tau2 : Double
   residual_q : Double
-} derive(ToJson)
+}
 
 ///|
 pub extend Pool with ToJson::{to_json}

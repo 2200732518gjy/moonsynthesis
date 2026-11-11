@@ -12,7 +12,7 @@ MoonSynthesis 是用 MoonBit 实现的独立研究汇总数据 Meta 分析库，
 
 ## 环境与安装
 
-比赛编译器下限为 `moonc 0.10.16`。本项目本地测试使用 `moonc 0.10.18+6c83a7f62-dev`、`moon 0.1.20261028`；建议使用当前官方工具链。核心库和三个示例支持 wasm-gc、wasm、JS、native，批处理 stdin/文件适配器需要 Node.js 22+。Python 只用于独立开发验证。
+比赛编译器下限为 `moonc 0.10.16`；本项目使用当前属性语法，要求 `moonc >= 0.10.20`。交付测试使用官方 `moonc v0.10.20+65efd5b93 (2026-11-05)`；建议使用当前官方工具链。核心库和三个示例支持 wasm-gc、wasm、JS、native，批处理 stdin/文件适配器需要 Node.js 22+。Python 只用于独立开发验证。
 
 在自己的模块中固定安装本次版本：
 

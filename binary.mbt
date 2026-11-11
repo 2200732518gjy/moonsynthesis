@@ -1,19 +1,21 @@
 ///|
 /// Counts refer to independent Bernoulli sampling arms, not paired outcomes.
+#derive(ToJson)
 pub(all) struct BinaryArm {
   events : Int32
   total : Int32
-} derive(ToJson)
+}
 
 ///|
 pub extend BinaryArm with ToJson::{to_json}
 
 ///|
 /// HalfIfZero adds one half to all four cells only when any cell is zero.
+#derive(Eq, ToJson)
 pub(all) enum Correction {
   NoCorrection
   HalfIfZero
-} derive(Eq, ToJson)
+}
 
 ///|
 pub extend Correction with Eq::{not_equal, equal}

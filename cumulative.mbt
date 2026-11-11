@@ -1,9 +1,10 @@
 ///|
 /// Prefix endpoints refer to supplied order, which callers may sort by date.
+#derive(ToJson)
 pub(all) struct Cumulative {
   through_id : String
   analysis : Analysis
-} derive(ToJson)
+}
 
 ///|
 pub extend Cumulative with ToJson::{to_json}

@@ -1,6 +1,7 @@
 ///|
 /// Descriptive study-level results on the input effect scale.
 /// Residuals below are standardized by sqrt(v+tau²), not externally studentized.
+#derive(ToJson)
 pub(all) struct StudySummary {
   id : String
   group : String
@@ -10,7 +11,7 @@ pub(all) struct StudySummary {
   weight : Double
   residual : Double
   q_contribution : Double
-} derive(ToJson)
+}
 
 ///|
 pub extend StudySummary with ToJson::{to_json}

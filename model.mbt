@@ -7,12 +7,13 @@ pub suberror SynthesisError {
 ///|
 /// A study carries an effect on an additive analysis scale and its variance.
 /// All construction and extraction copy mutable arrays at API boundaries.
+#derive(ToJson)
 pub struct Study {
   id : String
   effect : Double
   variance : Double
   group : String
-} derive(ToJson)
+}
 
 ///|
 pub extend Study with ToJson::{to_json}

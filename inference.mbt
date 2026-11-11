@@ -1,10 +1,11 @@
 ///|
 /// Choices are explicit so a random-effects result cannot be mislabeled fixed.
+#derive(Eq, ToJson)
 pub(all) enum Model {
   Fixed
   DL
   PM
-} derive(Eq, ToJson)
+}
 
 ///|
 pub extend Model with Eq::{not_equal, equal}
@@ -15,10 +16,11 @@ pub extend Model with ToJson::{to_json}
 ///|
 /// Normal uses z and inverse total precision. ModifiedHK uses t(k-1)
 /// and max(1, residual Q/(k-1)); this conservative choice is not raw HKSJ.
+#derive(Eq, ToJson)
 pub(all) enum Inference {
   Normal
   ModifiedHK
-} derive(Eq, ToJson)
+}
 
 ///|
 pub extend Inference with Eq::{not_equal, equal}
@@ -28,16 +30,18 @@ pub extend Inference with ToJson::{to_json}
 
 ///|
 /// Closed, finite interval on the same additive scale as the input effects.
+#derive(ToJson)
 pub(all) struct Interval {
   lower : Double
   upper : Double
-} derive(ToJson)
+}
 
 ///|
 pub extend Interval with ToJson::{to_json}
 
 ///|
 /// A model fit records every choice needed to interpret its uncertainty.
+#derive(ToJson)
 pub(all) struct Analysis {
   model : Model
   inference : Inference
@@ -48,7 +52,7 @@ pub(all) struct Analysis {
   standard_error : Double
   confidence : Interval
   prediction : Interval?
-} derive(ToJson)
+}
 
 ///|
 pub extend Analysis with ToJson::{to_json}

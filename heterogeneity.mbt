@@ -1,11 +1,12 @@
 ///|
 /// Q, I-squared (fraction) and H-squared use fixed inverse variance weights.
+#derive(ToJson)
 pub struct Heterogeneity {
   q : Double
   df : Int32
   i2 : Double
   h2 : Double
-} derive(ToJson)
+}
 
 ///|
 pub extend Heterogeneity with ToJson::{to_json}

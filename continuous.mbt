@@ -1,10 +1,11 @@
 ///|
 /// Summary of a continuous measurement arm, preserving sampling-unit counts.
+#derive(ToJson)
 pub(all) struct Arm {
   n : Int32
   mean : Double
   sd : Double
-} derive(ToJson)
+}
 
 ///|
 pub extend Arm with ToJson::{to_json}
