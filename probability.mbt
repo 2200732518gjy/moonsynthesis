@@ -1,38 +1,70 @@
 ///|
-/// A normal tail approximation (absolute error below 8e-8).
-fn normal_tail(x : Double) -> Double {
-  let z = x.abs()
-  let t = 1.0 / (1.0 + 0.2316419 * z)
-  let poly = t *
-    (
-      0.319381530 +
-      t *
-      (-0.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429)))
-    )
-  let p = 0.3989422804014327 * @math.exp(-0.5 * z * z) * poly
-  if x >= 0.0 {
-    p
-  } else {
-    1.0 - p
-  }
-}
-
-///|
-/// Invert a monotone tail without a fragile closed-form extreme-tail fit.
+/// Acklam's rational inverse-normal approximation on the supported alpha domain.
+/// Coefficients are numerical constants, evaluated here in Horner form.
+/// Unlike a low-order CDF inversion this keeps tail quantile error small.
 pub fn normal_critical(alpha : Double) -> Double raise SynthesisError {
   require_alpha(alpha)
-  let target = alpha / 2.0
-  let mut low = 0.0
-  let mut high = 8.0
-  for _ in 0..<80 {
-    let mid = (low + high) / 2.0
-    if normal_tail(mid) > target {
-      low = mid
-    } else {
-      high = mid
-    }
+  let p = alpha / 2.0
+  if p < 0.02425 {
+    let q = (-2.0 * @math.ln(p)).sqrt()
+    let numerator = (
+        (
+          (
+            (-0.007784894002430293 * q - 0.3223964580411365) * q -
+            2.400758277161838
+          ) *
+          q -
+          2.549732539343734
+        ) *
+        q +
+        4.374664141464968
+      ) *
+      q +
+      2.938163982698783
+    let denominator = (
+        (
+          (0.007784695709041462 * q + 0.3224671290700398) * q +
+          2.445134137142996
+        ) *
+        q +
+        3.754408661907416
+      ) *
+      q +
+      1.0
+    -numerator / denominator
+  } else {
+    let q = p - 0.5
+    let r = q * q
+    let numerator = (
+        (
+          (
+            (
+              (-39.69683028665376 * r + 220.9460984245205) * r -
+              275.9285104469687
+            ) *
+            r +
+            138.3577518672690
+          ) *
+          r -
+          30.66479806614716
+        ) *
+        r +
+        2.506628277459239
+      ) *
+      q
+    let denominator = (
+        (
+          ((-54.47609879822406 * r + 161.5858368580409) * r - 155.6989798598866) *
+          r +
+          66.80131188771972
+        ) *
+        r -
+        13.28068155288572
+      ) *
+      r +
+      1.0
+    -numerator / denominator
   }
-  (low + high) / 2.0
 }
 
 ///|

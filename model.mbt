@@ -71,6 +71,9 @@ pub fn validate_studies(
   studies : Array[Study],
   minimum : Int32,
 ) -> Unit raise SynthesisError {
+  if minimum < 2 || minimum > 512 {
+    raise Invalid("minimum must be 2..512")
+  }
   if studies.length() < minimum || studies.length() > 512 {
     raise Invalid("study count outside supported 2..512 range")
   }
