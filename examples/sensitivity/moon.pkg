@@ -1,2 +1,5 @@
-import { "2200732518gjy/moonsynthesis" @synthesis }
-options("is-main": true)
+import {
+  "2200732518gjy/moonsynthesis" @synthesis,
+}
+
+pkgtype(kind: "executable")

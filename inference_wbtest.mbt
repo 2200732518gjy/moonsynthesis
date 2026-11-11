@@ -1,3 +1,4 @@
+///|
 test "normal and conservative HK intervals carry explicit model choices" {
   let s = [study("a", 0.0, 1.0), study("b", 2.0, 1.0), study("c", 4.0, 1.0)]
   let n = analyze(s, model=DL, inference=Normal)
@@ -9,6 +10,11 @@ test "normal and conservative HK intervals carry explicit model choices" {
   assert_true(two.prediction is None)
   let f = analyze(s, model=Fixed, inference=Normal)
   assert_true(f.prediction is None)
-  let invalid = try { ignore(analyze(s, model=Fixed)); false } catch { _ => true }
+  let invalid = try {
+    ignore(analyze(s, model=Fixed))
+    false
+  } catch {
+    _ => true
+  }
   assert_true(invalid)
 }

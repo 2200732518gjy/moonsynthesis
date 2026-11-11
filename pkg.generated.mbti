@@ -1,0 +1,207 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "2200732518gjy/moonsynthesis"
+
+// Values
+pub fn analyze(Array[Study], model? : Model, inference? : Inference, alpha? : Double) -> Analysis raise SynthesisError
+
+pub fn cumulative(Array[Study], model? : Model, inference? : Inference, alpha? : Double) -> Array[Cumulative] raise SynthesisError
+
+pub fn execute(Request) -> Json raise SynthesisError
+
+pub fn exponentiate_interval(Interval) -> Interval raise SynthesisError
+
+pub fn fixed(Array[Study]) -> Pool raise SynthesisError
+
+pub fn hedges_g(String, Arm, Arm, group? : String) -> Study raise SynthesisError
+
+pub fn heterogeneity(Array[Study]) -> Heterogeneity raise SynthesisError
+
+pub fn leave_one_out(Array[Study], model? : Model, inference? : Inference, alpha? : Double) -> Array[Deletion] raise SynthesisError
+
+pub fn log_odds_ratio(String, BinaryArm, BinaryArm, correction? : Correction, group? : String) -> Study raise SynthesisError
+
+pub fn log_risk_ratio(String, BinaryArm, BinaryArm, correction? : Correction, group? : String) -> Study raise SynthesisError
+
+pub fn mean_difference(String, Arm, Arm, group? : String) -> Study raise SynthesisError
+
+pub fn normal_critical(Double) -> Double raise SynthesisError
+
+pub fn parse_request(String) -> Request raise SynthesisError
+
+pub fn pool_at(Array[Study], Double) -> Pool raise SynthesisError
+
+pub fn process_json(String) -> String
+
+pub fn random_dl(Array[Study]) -> Pool raise SynthesisError
+
+pub fn random_pm(Array[Study]) -> Pool raise SynthesisError
+
+pub fn render_csv(Array[Study], model? : Model, inference? : Inference, alpha? : Double) -> String raise SynthesisError
+
+pub fn render_forest(Array[Study], model? : Model, inference? : Inference, alpha? : Double, title? : String) -> String raise SynthesisError
+
+pub fn student_critical(Double, Int32) -> Double raise SynthesisError
+
+pub fn study(String, Double, Double, group? : String) -> Study raise SynthesisError
+
+pub fn subgroups(Array[Study], model? : Model, inference? : Inference, alpha? : Double) -> GroupComparison raise SynthesisError
+
+pub fn summarize_studies(Array[Study], model? : Model, inference? : Inference, alpha? : Double) -> Array[StudySummary] raise SynthesisError
+
+pub fn tau_dl(Array[Study]) -> Double raise SynthesisError
+
+pub fn tau_pm(Array[Study]) -> Double raise SynthesisError
+
+pub fn validate_studies(Array[Study], Int32) -> Unit raise SynthesisError
+
+// Errors
+pub suberror SynthesisError {
+  Invalid(String)
+}
+
+// Types and methods
+pub(all) struct Analysis {
+  model : Model
+  inference : Inference
+  alpha : Double
+  count : Int32
+  pool : Pool
+  heterogeneity : Heterogeneity
+  standard_error : Double
+  confidence : Interval
+  prediction : Interval?
+} derive(ToJson)
+pub fn Analysis::to_json(Self) -> Json
+
+pub(all) struct Arm {
+  n : Int32
+  mean : Double
+  sd : Double
+} derive(ToJson)
+pub fn Arm::to_json(Self) -> Json
+
+pub(all) struct BinaryArm {
+  events : Int32
+  total : Int32
+} derive(ToJson)
+pub fn BinaryArm::to_json(Self) -> Json
+
+pub(all) enum Correction {
+  NoCorrection
+  HalfIfZero
+} derive(Eq, ToJson)
+pub fn Correction::equal(Self, Self) -> Bool
+pub fn Correction::not_equal(Self, Self) -> Bool
+pub fn Correction::to_json(Self) -> Json
+
+pub(all) struct Cumulative {
+  through_id : String
+  analysis : Analysis
+} derive(ToJson)
+pub fn Cumulative::to_json(Self) -> Json
+
+pub(all) struct Deletion {
+  omitted_id : String
+  analysis : Analysis
+  estimate_shift : Double
+} derive(ToJson)
+pub fn Deletion::to_json(Self) -> Json
+
+pub(all) struct GroupComparison {
+  groups : Array[Subgroup]
+  between_q : Double
+  between_df : Int32
+  within_q : Double
+} derive(ToJson)
+pub fn GroupComparison::to_json(Self) -> Json
+
+pub struct Heterogeneity {
+  q : Double
+  df : Int32
+  i2 : Double
+  h2 : Double
+} derive(ToJson)
+pub fn Heterogeneity::df(Self) -> Int32
+pub fn Heterogeneity::h2(Self) -> Double
+pub fn Heterogeneity::i2(Self) -> Double
+pub fn Heterogeneity::q(Self) -> Double
+pub fn Heterogeneity::to_json(Self) -> Json
+
+pub(all) enum Inference {
+  Normal
+  ModifiedHK
+} derive(Eq, ToJson)
+pub fn Inference::equal(Self, Self) -> Bool
+pub fn Inference::not_equal(Self, Self) -> Bool
+pub fn Inference::to_json(Self) -> Json
+
+pub(all) struct Interval {
+  lower : Double
+  upper : Double
+} derive(ToJson)
+pub fn Interval::to_json(Self) -> Json
+
+pub(all) enum Model {
+  Fixed
+  DL
+  PM
+} derive(Eq, ToJson)
+pub fn Model::equal(Self, Self) -> Bool
+pub fn Model::not_equal(Self, Self) -> Bool
+pub fn Model::to_json(Self) -> Json
+
+pub struct Pool {
+  estimate : Double
+  variance : Double
+  weights : Array[Double]
+  tau2 : Double
+  residual_q : Double
+} derive(ToJson)
+pub fn Pool::estimate(Self) -> Double
+pub fn Pool::residual_q(Self) -> Double
+pub fn Pool::tau2(Self) -> Double
+pub fn Pool::to_json(Self) -> Json
+pub fn Pool::variance(Self) -> Double
+pub fn Pool::weights(Self) -> Array[Double]
+
+pub(all) struct Request {
+  studies : Array[Study]
+  model : Model
+  inference : Inference
+  alpha : Double
+  outputs : Array[String]
+}
+
+pub struct Study {
+  id : String
+  effect : Double
+  variance : Double
+  group : String
+} derive(ToJson)
+pub fn Study::effect(Self) -> Double
+pub fn Study::group(Self) -> String
+pub fn Study::id(Self) -> String
+pub fn Study::to_json(Self) -> Json
+pub fn Study::variance(Self) -> Double
+
+pub(all) struct StudySummary {
+  id : String
+  group : String
+  effect : Double
+  variance : Double
+  confidence : Interval
+  weight : Double
+  residual : Double
+  q_contribution : Double
+} derive(ToJson)
+pub fn StudySummary::to_json(Self) -> Json
+
+pub(all) struct Subgroup {
+  label : String
+  analysis : Analysis
+} derive(ToJson)
+pub fn Subgroup::to_json(Self) -> Json
+
+// Type aliases
+
+// Traits

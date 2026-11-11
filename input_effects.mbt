@@ -1,4 +1,5 @@
-///| JSON arm summaries share the same validation as the typed API.
+///|
+/// JSON arm summaries share the same validation as the typed API.
 fn decode_arm(value : Json) -> Arm raise SynthesisError {
   let o = object_value(value, "arm")
   exact_keys(o, ["n", "mean", "sd"])
@@ -15,17 +16,21 @@ fn decode_arm(value : Json) -> Arm raise SynthesisError {
 fn decode_binary_arm(value : Json) -> BinaryArm raise SynthesisError {
   let o = object_value(value, "binary arm")
   exact_keys(o, ["events", "total"])
-  { events: count_value(required(o, "events"), "events"),
-    total: count_value(required(o, "total"), "total") }
+  {
+    events: count_value(required(o, "events"), "events"),
+    total: count_value(required(o, "total"), "total"),
+  }
 }
 
-///| A request must use one effect family throughout; raw direct inputs are
+///|
+/// A request must use one effect family throughout; raw direct inputs are
 /// deliberately a separate family because their units cannot be inferred.
 fn study_kind(value : Json) -> String raise SynthesisError {
   optional_text(object_value(value, "study"), "kind", "direct")
 }
 
-///| Each form has its own field allowlist, so variance and SD cannot be confused.
+///|
+/// Each form has its own field allowlist, so variance and SD cannot be confused.
 fn decode_study(value : Json) -> Study raise SynthesisError {
   let o = object_value(value, "study")
   let kind = study_kind(value)

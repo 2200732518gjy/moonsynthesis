@@ -1,2 +1,6 @@
-import { "2200732518gjy/moonsynthesis" @synthesis, "moonbitlang/core/env" }
-options("is-main": true)
+import {
+  "2200732518gjy/moonsynthesis" @synthesis,
+  "moonbitlang/core/env",
+}
+
+pkgtype(kind: "executable")

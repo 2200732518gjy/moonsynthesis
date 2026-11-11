@@ -1,3 +1,4 @@
+///|
 test "Cochran heterogeneity and homogeneous clamp" {
   let h = heterogeneity([study("a", 1.0, 1.0), study("b", 3.0, 1.0)])
   assert_eq(h.q(), 2.0)
