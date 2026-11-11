@@ -1,0 +1,48 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [wasm-gc, wasm, js, native]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install official MoonBit toolchain
+        shell: bash
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moon.sh
+          bash /tmp/install-moon.sh
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Verify compiler floor
+        run: python tools/check_compiler.py
+      - name: Format, check, test, build
+        run: |
+          moon fmt --check
+          moon check --target ${{ matrix.target }} --deny-warn
+          moon test --target ${{ matrix.target }} --deny-warn
+          moon build --target ${{ matrix.target }} --deny-warn
+      - name: Three downstream examples
+        run: |
+          moon run examples/quickstart --target ${{ matrix.target }}
+          moon run examples/sensitivity --target ${{ matrix.target }}
+          moon run examples/binary --target ${{ matrix.target }}
+      - uses: actions/setup-python@v5
+        if: matrix.target == 'js'
+        with:
+          python-version: '3.12'
+      - name: Independent oracle and bounded protocol workflows
+        if: matrix.target == 'js'
+        run: |
+          moon build --target js --release --deny-warn
+          python -m pip install -r tools/oracle-requirements.txt
+          python tools/verify_workflows.py
+          python tools/verify_oracle.py
