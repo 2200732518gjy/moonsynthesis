@@ -11,6 +11,7 @@ pub extend Deletion with ToJson::{to_json}
 pub fn leave_one_out(studies : Array[Study], model~ : Model = PM,
   inference~ : Inference = ModifiedHK, alpha~ : Double = 0.05) -> Array[Deletion] raise SynthesisError {
   validate_studies(studies, 3)
+  if studies.length() > 64 { raise Invalid("refitting workflow exceeds 64 studies") }
   let baseline = analyze(studies, model~, inference~, alpha~)
   let output : Array[Deletion] = []
   for omitted in 0..<studies.length() {

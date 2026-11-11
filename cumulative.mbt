@@ -10,6 +10,7 @@ pub extend Cumulative with ToJson::{to_json}
 pub fn cumulative(studies : Array[Study], model~ : Model = PM,
   inference~ : Inference = ModifiedHK, alpha~ : Double = 0.05) -> Array[Cumulative] raise SynthesisError {
   validate_studies(studies, 2)
+  if studies.length() > 128 { raise Invalid("refitting workflow exceeds 128 studies") }
   let prefix : Array[Study] = [studies[0]]
   let output : Array[Cumulative] = []
   for i in 1..<studies.length() {
