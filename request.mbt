@@ -68,7 +68,7 @@ fn optional_text(object : Map[String, Json], key : String, default : String) -> 
 ///| Direct inputs explicitly denote effect and sampling variance, never SE.
 fn direct_study(value : Json) -> Study raise SynthesisError {
   let o = object_value(value, "study")
-  exact_keys(o, ["id", "effect", "variance", "group"])
+  exact_keys(o, ["kind", "id", "effect", "variance", "group"])
   study(text_value(required(o, "id"), "id"),
     number_value(required(o, "effect"), "effect"),
     number_value(required(o, "variance"), "variance"),
@@ -109,7 +109,11 @@ pub fn parse_request(text : String) -> Request raise SynthesisError {
   match required(o, "studies") {
     Array(a) => {
       if a.length() < 2 || a.length() > 512 { raise Invalid("study count must be 2..512") }
-      for value in a { studies.push(direct_study(value)) }
+      let kind = study_kind(a[0])
+      for value in a {
+        if study_kind(value) != kind { raise Invalid("mixed effect families are unsupported") }
+        studies.push(decode_study(value))
+      }
     }
     _ => raise Invalid("studies must be an array")
   }
