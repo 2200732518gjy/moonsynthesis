@@ -1,0 +1,2 @@
+import { "2200732518gjy/moonsynthesis" @synthesis }
+options("is-main": true)

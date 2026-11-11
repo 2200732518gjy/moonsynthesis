@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "model": "pm",
+  "outputs": [
+    "summary",
+    "studies",
+    "leave-one-out",
+    "cumulative",
+    "subgroups",
+    "csv",
+    "svg"
+  ],
+  "studies": [
+    {
+      "id": "replication-1",
+      "effect": 0.1,
+      "variance": 0.02,
+      "group": "lab-a"
+    },
+    {
+      "id": "replication-2",
+      "effect": 0.2,
+      "variance": 0.03,
+      "group": "lab-a"
+    },
+    {
+      "id": "replication-3",
+      "effect": 0.5,
+      "variance": 0.04,
+      "group": "lab-b"
+    },
+    {
+      "id": "replication-4",
+      "effect": 0.8,
+      "variance": 0.06,
+      "group": "lab-b"
+    }
+  ]
+}
