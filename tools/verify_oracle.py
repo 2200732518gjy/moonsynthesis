@@ -2,6 +2,7 @@
 import json, math, pathlib, random, subprocess, tempfile
 import numpy as np
 from scipy.stats import norm, t
+from scipy.optimize import brentq
 from statsmodels.stats.meta_analysis import combine_effects, effectsize_smd, effectsize_2proportions
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 CASES = 0
@@ -26,9 +27,23 @@ def run(request):
 
 def reference(y, v, model):
     # statsmodels DL permits negative tau²; our documented estimator truncates it.
-    fit = combine_effects(y, v, method_re='iterated' if model == 'pm' else 'chi2',
-                          **({'atol': 1e-12, 'maxiter': 200} if model == 'pm' else {}))
+    # The 0.14.5 PM iteration may reset a converged positive root to zero
+    # if a final floating point step makes Q-df slightly negative. For PM use
+    # SciPy's independent bracketed root on dimensionless, scaled variances.
+    fit = combine_effects(y, v, method_re='chi2')
     tau = 0.0 if model == 'fixed' else max(0.0, fit.tau2)
+    if model == 'pm':
+        scale = float(v.min())
+        ys, vs = y/math.sqrt(scale), v/scale
+        def equation(tau_scaled):
+            w = 1.0/(vs+tau_scaled)
+            mean = np.dot(w,ys)/w.sum()
+            return np.dot(w,(ys-mean)**2)-(len(y)-1)
+        tau = 0.0
+        if equation(0.0) > 0:
+            high = float(vs.max())
+            while equation(high) > 0: high *= 2
+            tau = scale*brentq(equation,0.0,high,xtol=1e-12,rtol=1e-14)
     weights = 1.0/(v+tau)
     mean = np.dot(weights, y)/weights.sum()
     variance = 1.0/weights.sum()
@@ -42,7 +57,8 @@ def check(y, v, model, inference, raw=None):
     result = run(request)
     actual = result['summary']
     fit, tau, weights, mean, variance, residual = reference(y, v, model)
-    close(actual['pool']['tau2'], tau)
+    try: close(actual['pool']['tau2'], tau)
+    except AssertionError as error: raise AssertionError((model,inference,y.tolist(),v.tolist(),str(error)))
     close(actual['pool']['estimate'], mean)
     close(actual['pool']['variance'], variance)
     close(actual['pool']['residual_q'], residual)
@@ -56,7 +72,7 @@ def check(y, v, model, inference, raw=None):
     close(actual['confidence']['lower'], mean-critical*se, 3e-6)
     close(actual['confidence']['upper'], mean+critical*se, 3e-6)
     if model == 'fixed' or len(y) == 2:
-        assert actual['prediction'] is None
+        assert actual.get('prediction') is None
     else:
         radius = t.isf(0.025, len(y)-2)*math.sqrt(tau+se*se)
         close(actual['prediction']['lower'], mean-radius, 3e-6)
