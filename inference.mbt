@@ -5,6 +5,7 @@ pub(all) enum Model {
   Fixed
   DL
   PM
+  REML
 }
 
 ///|
@@ -88,6 +89,7 @@ pub fn analyze(
     Fixed => fixed(studies)
     DL => random_dl(studies)
     PM => random_pm(studies)
+    REML => random_reml(studies)
   }
   if model == Fixed && inference == ModifiedHK {
     raise Invalid("fixed model requires normal inference")

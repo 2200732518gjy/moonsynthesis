@@ -1,6 +1,6 @@
 name = "2200732518gjy/moonsynthesis"
 
-version = "0.1.1"
+version = "0.2.0"
 
 readme = "README.md"
 
@@ -10,4 +10,4 @@ license = "MIT"
 
 keywords = [ "meta-analysis", "statistics", "research" ]
 
-description = "Independent-study aggregate meta-analysis, heterogeneity and sensitivity workflows in MoonBit"
+description = "Independent-study meta-analysis, REML meta-regression, prediction and sensitivity workflows in MoonBit"

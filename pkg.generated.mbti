@@ -28,6 +28,8 @@ pub fn log_risk_ratio(String, BinaryArm, BinaryArm, correction? : Correction, gr
 
 pub fn mean_difference(String, Arm, Arm, group? : String) -> Study raise SynthesisError
 
+pub fn meta_regression(Array[Study], Array[Array[Double]], Array[String], inference? : Inference, alpha? : Double) -> Regression raise SynthesisError
+
 pub fn normal_critical(Double) -> Double raise SynthesisError
 
 pub fn parse_request(String) -> Request raise SynthesisError
@@ -39,6 +41,8 @@ pub fn process_json(String) -> String
 pub fn random_dl(Array[Study]) -> Pool raise SynthesisError
 
 pub fn random_pm(Array[Study]) -> Pool raise SynthesisError
+
+pub fn random_reml(Array[Study]) -> Pool raise SynthesisError
 
 pub fn render_csv(Array[Study], model? : Model, inference? : Inference, alpha? : Double) -> String raise SynthesisError
 
@@ -55,6 +59,8 @@ pub fn summarize_studies(Array[Study], model? : Model, inference? : Inference, a
 pub fn tau_dl(Array[Study]) -> Double raise SynthesisError
 
 pub fn tau_pm(Array[Study]) -> Double raise SynthesisError
+
+pub fn tau_reml(Array[Study]) -> Double raise SynthesisError
 
 pub fn validate_studies(Array[Study], Int32) -> Unit raise SynthesisError
 
@@ -92,6 +98,15 @@ pub(all) struct BinaryArm {
   total : Int32
 }
 pub fn BinaryArm::to_json(Self) -> @json.Json
+
+#derive(@json.ToJson)
+pub(all) struct Coefficient {
+  name : String
+  estimate : Double
+  standard_error : Double
+  confidence : Interval
+}
+pub fn Coefficient::to_json(Self) -> @json.Json
 
 #derive(Eq, @json.ToJson)
 pub(all) enum Correction {
@@ -160,6 +175,7 @@ pub(all) enum Model {
   Fixed
   DL
   PM
+  REML
 }
 pub fn Model::equal(Self, Self) -> Bool
 pub fn Model::not_equal(Self, Self) -> Bool
@@ -179,6 +195,35 @@ pub fn Pool::tau2(Self) -> Double
 pub fn Pool::to_json(Self) -> @json.Json
 pub fn Pool::variance(Self) -> Double
 pub fn Pool::weights(Self) -> Array[Double]
+
+#derive(@json.ToJson)
+pub struct Regression {
+  model : Model
+  count : Int32
+  residual_df : Int32
+  tau2 : Double
+  residual_q : Double
+  residual_heterogeneity_q : Double
+  iterations : Int32
+  inference : Inference
+  alpha : Double
+  coefficients : Array[Coefficient]
+  covariance : Array[Array[Double]]
+}
+pub fn Regression::coefficients(Self) -> Array[Coefficient]
+pub fn Regression::predict(Self, Array[Double]) -> RegressionPrediction raise SynthesisError
+pub fn Regression::residual_df(Self) -> Int32
+pub fn Regression::tau2(Self) -> Double
+pub fn Regression::to_json(Self) -> @json.Json
+
+#derive(@json.ToJson)
+pub(all) struct RegressionPrediction {
+  estimate : Double
+  standard_error : Double
+  confidence : Interval
+  prediction : Interval?
+}
+pub fn RegressionPrediction::to_json(Self) -> @json.Json
 
 pub(all) struct Request {
   studies : Array[Study]

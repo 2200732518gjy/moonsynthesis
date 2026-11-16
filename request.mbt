@@ -128,7 +128,8 @@ pub fn parse_request(text : String) -> Request raise SynthesisError {
     "fixed" => Fixed
     "dl" => DL
     "pm" => PM
-    _ => raise Invalid("model must be fixed, dl or pm")
+    "reml" => REML
+    _ => raise Invalid("model must be fixed, dl, pm or reml")
   }
   let default_inference = if model == Fixed { "normal" } else { "modified-hk" }
   let inference = match optional_text(o, "inference", default_inference) {

@@ -74,7 +74,7 @@ pub fn execute(request : Request) -> Json raise SynthesisError {
 /// Stable error envelope; parse failures never echo the original input body.
 /// This entry point performs no IO and is usable on every supported backend.
 pub fn process_json(text : String) -> String {
-  let response = execute(parse_request(text)) catch {
+  let response = execute_model_text(text) catch {
     Invalid(message) => {
       let detail : Map[String, Json] = {
         "code": Json("invalid_input"),
