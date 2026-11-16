@@ -9,3 +9,6 @@ analyze 根据模型和推断选项构造置信与预测区间。研究级区间
 协议层调用同一组公开 API。CSV 和 SVG 直接使用拟合结果，没有第二套统计实现。Node 适配器只完成有界输入及 UTF-8 解码，既不算权重，也不处理统计错误。
 
 复杂度主要来自 PM 重拟合。唯一性校验 O(k²)，PM 最多 160 次二分及有界倍增；留一法与累积为多个子集分别拟合。公开 API 和协议均限制重拟合规模，不提供并行全局状态或隐式网络访问。
+
+
+0.2.0：regression_qr.mbt 是 REML 加权 QR/得分求解器；regression.mbt 提供 typed 回归、预测及截距模型；regression_protocol.mbt 增加 v2 原子请求。v1 Request 结构未改变；process_json 先做受限解析/版本分发，再执行统计。

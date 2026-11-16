@@ -9,3 +9,11 @@ Node 入口有界地读最多 1 MiB，不执行请求内命令、不选择输出
 CSV 列顺序：type,id,group,effect,variance,lower,upper,weight,q,tau2。study 行 variance 为采样方差，q 为该研究残差贡献；pooled 行 variance 为已选推断的标准误平方，q 为残差总和；weight 列为比例，pooled 为 1。危险文本加单引号，CSV 用于展示，原始标签请使用 JSON。电子表格的行为并无统一保证，导入时仍应按文本处理标签列。
 
 SVG 的横轴始终是输入效应的加性尺度，包括 log 比值。输出使用数字生成坐标、内部固定颜色、XML 转义文本，无 script、foreignObject、URL 或事件属性。非法 XML 控制字符失败；标题最多 256 单元。SVG 没有外部资源依赖。森林图表达估计与区间，不自动选择研究或判定离群研究。
+
+
+## v2 研究层回归
+
+协议 v1 保持兼容并增加 model=reml；v2 字段只允许 version/model/inference/alpha/studies/names/moderators/predict。
+只支持 REML，最多8列协变量、512研究、128预测；每行宽度必须匹配 names，study 顺序须一致。
+全部拟合和预测完成后才返回成功；未知字段、重复键、错误维度、非法数值和秩亏整体失败。
+成功 envelope version=2，公共错误 envelope 延续 version=1；CLI 中统计输入错误返回 JSON 而不是改变进程状态码，IO 错误返回状态码2。

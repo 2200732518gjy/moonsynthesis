@@ -14,3 +14,12 @@
 - https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.t.html
 
 AI 参与需求研究、选题查重、代码/测试/文档编写及验收修复。开发验收包含严格多后端测试、三种实际工作流、恶意标签/有界输入回归和固定种子独立差分。AI 输出和测试均不能证明没有缺陷，项目不提供临床或其它决策结论。
+
+
+## 0.2.0 REML / Meta 回归与公开数据
+
+REML 得分、研究层混合效应回归和保守 modified-HK 的方法约定参考 metafor 文档：
+https://wviechtb.github.io/metafor/reference/rma.uni.html 。原创 MoonBit 以加权 QR、杠杆值迹和括根求解实现，未复制或移植 R 实现源码。
+开发期运行 R/metafor 4.8-0 与 metadat 1.4-0 建立独立数值基准；两者的源码版本均声明 GPL (>=2)，不作为生产依赖或链接库。
+BCG 数据及派生参考快照独立按 GPL-2.0-or-later 放在 fixtures/metafor-bcg，附来源和 COPYING；根代码仍为 MIT。
+AI 参与了这次算法实现、差分测试和文档，正确性依据可复现的公开基准及回归，不依据 AI 的判断。

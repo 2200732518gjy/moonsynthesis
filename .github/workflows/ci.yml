@@ -30,11 +30,12 @@ jobs:
           moon check --target ${{ matrix.target }} --deny-warn
           moon test --target ${{ matrix.target }} --deny-warn
           moon build --target ${{ matrix.target }} --deny-warn
-      - name: Three downstream examples
+      - name: Four downstream examples
         run: |
           moon run examples/quickstart --target ${{ matrix.target }}
           moon run examples/sensitivity --target ${{ matrix.target }}
           moon run examples/binary --target ${{ matrix.target }}
+          moon run examples/modeling --target ${{ matrix.target }}
       - uses: actions/setup-python@v5
         if: matrix.target == 'js'
         with:
@@ -47,3 +48,4 @@ jobs:
           python tools/verify_readme.py
           python tools/verify_workflows.py
           python tools/verify_oracle.py
+          python tools/verify_modeling.py

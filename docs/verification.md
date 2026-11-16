@@ -9,3 +9,6 @@
 原生后端要求 C 工具链；Windows 本地如仅能检查则以 Linux CI 的实际 native 测试/构建/示例结果补足。GitHub Actions 必须对应发布 SHA，不能用旧成功替代。未测吞吐、覆盖率、临床覆盖率或与其它软件的性能差异，因此不声明这些指标。
 
 中文 README 的导入和最小测试通过 `python tools/verify_readme.py` 在独立 workspace 中逐字提取检查；这项发布前检查使用本地候选源码，发布后还须用无 token、无缓存的消费者安装精确注册版本。
+
+
+0.2.0 新增 REML 与研究层 Meta 回归的公开数据/独立似然优化验证，详见 [建模验证](modeling.md)。运行 `python tools/verify_modeling.py`，CI JS 任务执行同一入口。
