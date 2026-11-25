@@ -14,14 +14,14 @@ MoonSynthesis 是用 MoonBit 实现的独立研究汇总数据 Meta 分析库，
 
 ## 环境与安装
 
-比赛编译器下限为 `moonc 0.10.16`；本项目使用当前属性语法，要求 `moonc >= 0.10.20`。交付测试使用官方 `moonc v0.10.20+65efd5b93 (2026-11-05)`；建议使用当前官方工具链。核心库和四个示例支持 wasm-gc、wasm、JS、native，批处理 stdin/文件适配器需要 Node.js 22+。Python/R 只用于独立开发验证。
+比赛编译器下限为 `moonc 0.10.16`；本项目使用当前属性语法，要求 `moonc >= 0.10.20`。CI 通过官方安装脚本固定到 `moonc 0.10.22+124d61d05`；版本门禁同时核对该精确编译器构建。本轮验收实测对应官方 Moon `0.1.20261119` / `moonc v0.10.22+124d61d05 (2026-11-19)`。核心库和四个示例支持 wasm-gc、wasm、JS、native，批处理 stdin/文件适配器需要 Node.js 22+。Python/R 只用于独立开发验证。
 
 在自己的模块中固定安装本次版本：
 
 ```sh
 moon new synthesis-consumer --user example
 cd synthesis-consumer
-moon add 2200732518gjy/moonsynthesis@0.2.0
+moon add 2200732518gjy/moonsynthesis@0.2.1
 ```
 
 此处样例仅在测试中调用依赖，在消费包的 `moon.pkg` 中加入测试专用导入：
@@ -65,7 +65,7 @@ test "study-level moderator model" {
 ```sh
 git clone https://github.com/2200732518gjy/moonsynthesis.git
 cd moonsynthesis
-git checkout v0.2.0
+git checkout v0.2.1
 moon run examples/quickstart --target wasm-gc
 moon run examples/sensitivity --target wasm-gc
 moon run examples/binary --target wasm-gc
@@ -177,4 +177,4 @@ python tools/verify_modeling.py
 
 根目录 `.mbt` 是实际统计、协议和报告引擎；`cmd/protocol` 是可移植入口；`tools/synthesis.mjs` 仅负责 Node IO；`examples` 是四种下游工作流；[架构](docs/architecture.md) 说明数据流。
 
-本项目的原创代码采用 [MIT](LICENSE)；`fixtures/metafor-bcg` 的公开数据与派生基准独立按 GPL-2.0-or-later 分发，见其 README/COPYING。运行依赖 MoonBit core；成熟统计公式和参考实现仅用于设计/验证，不捆绑第三方统计实现源码。来源、参考约定差异与 AI 使用披露见 [ATTRIBUTION.md](ATTRIBUTION.md)。查重记录见 [语义边界](docs/competition/duplicate-check.md)。[CHANGELOG.md](CHANGELOG.md) 记录本次发布能力。AI 参与了选题研究、代码、文档和测试编写；正确性依赖可复现验证，仍可能存在未覆盖问题。
+本项目的原创代码采用 [MIT](LICENSE)；`fixtures/metafor-bcg` 的公开数据与派生基准独立按 GPL-2.0-or-later 分发，见其 README/COPYING。运行依赖 MoonBit core；成熟统计公式和参考实现仅用于设计/验证，不捆绑第三方统计实现源码。来源、参考约定差异与 AI 使用披露见 [ATTRIBUTION.md](ATTRIBUTION.md)；Apache-2.0 第三方系数表的许可和归属见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 与 [LICENSE-APACHE-2.0](LICENSE-APACHE-2.0)。查重记录见 [语义边界](docs/competition/duplicate-check.md)。[CHANGELOG.md](CHANGELOG.md) 记录本次发布能力。AI 参与了选题研究、代码、文档和测试编写；正确性依赖可复现验证，仍可能存在未覆盖问题。
