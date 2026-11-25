@@ -21,7 +21,7 @@ MoonSynthesis 是用 MoonBit 实现的独立研究汇总数据 Meta 分析库，
 ```sh
 moon new synthesis-consumer --user example
 cd synthesis-consumer
-moon add 2200732518gjy/moonsynthesis@0.2.1
+moon add 2200732518gjy/moonsynthesis@0.2.2
 ```
 
 此处样例仅在测试中调用依赖，在消费包的 `moon.pkg` 中加入测试专用导入：
@@ -58,14 +58,14 @@ test "study-level moderator model" {
 }
 ```
 
-执行 `moon test --target wasm-gc --deny-warn`。安装的是 `0.2.0`，无须 GitHub 凭据或 MoonCakes token。
+执行 `moon test --target wasm-gc --deny-warn`。安装的是 `0.2.2`，无须 GitHub 凭据或 MoonCakes token。
 
 ## 从源码快速运行
 
 ```sh
 git clone https://github.com/2200732518gjy/moonsynthesis.git
 cd moonsynthesis
-git checkout v0.2.1
+git checkout v0.2.2
 moon run examples/quickstart --target wasm-gc
 moon run examples/sensitivity --target wasm-gc
 moon run examples/binary --target wasm-gc
