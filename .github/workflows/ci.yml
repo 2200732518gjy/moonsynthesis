@@ -22,9 +22,9 @@ jobs:
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moon.sh
           bash /tmp/install-moon.sh 0.10.22+124d61d05
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-      # Install the exact official compiler build validated in this repository.
-      - name: Verify compiler version
-        run: python tools/check_compiler.py
+      # Pin and assert the compiler, Moon CLI and moonrun used by every CI job.
+      - name: Verify complete toolchain versions
+        run: python tools/check_toolchain.py
       - name: Format, check, test, build
         run: |
           moon fmt --check

@@ -14,14 +14,22 @@ MoonSynthesis 是用 MoonBit 实现的独立研究汇总数据 Meta 分析库，
 
 ## 环境与安装
 
-比赛编译器下限为 `moonc 0.10.16`；本项目使用当前属性语法，要求 `moonc >= 0.10.20`。CI 通过官方安装脚本固定到 `moonc 0.10.22+124d61d05`；版本门禁同时核对该精确编译器构建。本轮验收实测对应官方 Moon `0.1.20261119` / `moonc v0.10.22+124d61d05 (2026-11-19)`。核心库和四个示例支持 wasm-gc、wasm、JS、native，批处理 stdin/文件适配器需要 Node.js 22+。Python/R 只用于独立开发验证。
+项目及 GitHub CI 固定并验证整套官方 MoonBit 1.0 RC 前最新版工具链：`moonc 0.10.22+124d61d05`、`moon 0.1.20261119`、`moonrun 0.1.20261119`。CI 在每个目标任务开始时逐项检查三者版本，任一不符即失败。Linux/macOS 可使用官方安装器安装固定编译器构建：
+
+```sh
+curl -fsSL https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moon.sh
+bash /tmp/install-moon.sh 0.10.22+124d61d05
+python tools/check_toolchain.py
+```
+
+核心库和四个示例支持 wasm-gc、wasm、JS、native，批处理 stdin/文件适配器需要 Node.js 22+。Python/R 只用于独立开发验证。
 
 在自己的模块中固定安装本次版本：
 
 ```sh
 moon new synthesis-consumer --user example
 cd synthesis-consumer
-moon add 2200732518gjy/moonsynthesis@0.2.2
+moon add 2200732518gjy/moonsynthesis@0.2.3
 ```
 
 此处样例仅在测试中调用依赖，在消费包的 `moon.pkg` 中加入测试专用导入：
@@ -58,14 +66,14 @@ test "study-level moderator model" {
 }
 ```
 
-执行 `moon test --target wasm-gc --deny-warn`。安装的是 `0.2.2`，无须 GitHub 凭据或 MoonCakes token。
+执行 `moon test --target wasm-gc --deny-warn`。安装的是 `0.2.3`，无须 GitHub 凭据或 MoonCakes token。
 
 ## 从源码快速运行
 
 ```sh
 git clone https://github.com/2200732518gjy/moonsynthesis.git
 cd moonsynthesis
-git checkout v0.2.2
+git checkout v0.2.3
 moon run examples/quickstart --target wasm-gc
 moon run examples/sensitivity --target wasm-gc
 moon run examples/binary --target wasm-gc
